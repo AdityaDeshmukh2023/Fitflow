@@ -39,29 +39,86 @@ def diet_recommendation_view(request):
             model = genai.GenerativeModel("gemini-pro")
 
             prompt = f"""
-            Personalized Diet and Wellness Plan:
-            Based on the following information, provide a detailed and personalized daily meal plan along with suitable fitness recommendations:
-            - Age: {profile.age}
-            - Gender: {profile.gender}
-            - Weight: {profile.weight} kg
-            - Height: {profile.height} cm
-            - Dietary Preference: {profile.veg_or_nonveg}
-            - Goal: {profile.goal}
-            - Health Conditions: {profile.disease}
-            - Country: {profile.country}
-            - State/Province: {profile.state}
-            - Food Allergies: {profile.allergics}
-            - Preferred Food Type: {profile.food_type}
-            
-            Output Language: {profile.language}
+            Create a structured, easy-to-read diet and wellness plan with clear numbering (no markdown).
+            Use simple numbering (1., 2., 3.) and clear section breaks.
+            Format the response as plain text with clear headings and proper spacing.
 
-            Recommendations should include:
-            1. A balanced breakfast, lunch, and dinner plan
-            2. 3 healthy snack options
-            3. Essential nutrients and foods to include/avoid
-            4. Workout suggestions aligned with their goals
-            5. Lifestyle tips for overall wellness
+            Create a plan for someone with these details:
+            Age: {profile.age}
+            Gender: {profile.gender}
+            Weight: {profile.weight} kg
+            Height: {profile.height} cm
+            Diet Type: {profile.veg_or_nonveg}
+            Goal: {profile.goal}
+            Health Conditions: {profile.disease}
+            Location: {profile.country}, {profile.state}
+            Food Allergies: {profile.allergics}
+            Food Preference: {profile.food_type}
+            Language: {profile.language}
+
+            Format the response in this exact structure:
+
+            PERSONAL DIET AND WELLNESS PLAN
+            ===============================
+
+            1. PROFILE SUMMARY
+               -------------
+               [List key details about the person]
+
+            2. DAILY NUTRITION TARGETS
+               ---------------------
+               a) Calories:
+               b) Protein:
+               c) Carbs:
+               d) Fats:
+
+            3. MEAL SCHEDULE
+               -------------
+               BREAKFAST:
+               - Item 1 (portion)
+               - Item 2 (portion)
+
+               MORNING SNACK:
+               - Item 1 (portion)
+               - Item 2 (portion)
+
+               LUNCH:
+               - Item 1 (portion)
+               - Item 2 (portion)
+
+               EVENING SNACK:
+               - Item 1 (portion)
+               - Item 2 (portion)
+
+               DINNER:
+               - Item 1 (portion)
+               - Item 2 (portion)
+
+            4. WEEKLY WORKOUT PLAN
+               -----------------
+               [Day-wise exercise plan]
+
+            5. FOODS TO INCLUDE
+               ---------------
+               [List essential foods]
+
+            6. FOODS TO AVOID
+               -------------
+               [List foods to avoid]
+
+            7. LIFESTYLE RECOMMENDATIONS
+               ------------------------
+               [List key lifestyle tips]
+
+            8. IMPORTANT NOTES
+               --------------
+               [Any specific considerations based on health conditions or allergies]
+
+            Use clear spacing and numbering. No markdown formatting.
             """
+
+            response = model.generate_content(prompt)
+            recommendation_text = response.text
 
             response = model.generate_content(prompt)
             recommendation_text = response.text.replace('```', '').replace('#', '')
