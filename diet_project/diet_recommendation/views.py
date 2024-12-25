@@ -4,6 +4,8 @@ from .forms import DietRecommendationForm
 from google.generativeai import GenerativeModel
 import os
 from dotenv import load_dotenv
+import google.generativeai as genai
+
 
 load_dotenv()
 
@@ -31,11 +33,13 @@ def diet_recommendation_view(request):
             # Calculate BMI
             bmi, bmi_category = calculate_bmi(float(profile.weight), float(profile.height))
             
-            # Generate recommendation using Google's Gemini Pro
-            model = GenerativeModel(
-                model_name="gemini-pro",
-                api_key=os.getenv("GOOGLE_API_KEY")
-            )
+            
+
+            # Configure the API key
+            genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+            # Then create the model
+            model = genai.GenerativeModel("gemini-pro")
 
             prompt = f"""
             Personalized Diet and Wellness Plan:
