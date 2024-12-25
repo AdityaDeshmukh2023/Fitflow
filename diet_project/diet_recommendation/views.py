@@ -64,7 +64,7 @@ def diet_recommendation_view(request):
             """
 
             response = model.generate_content(prompt)
-            recommendation_text = response.text
+            recommendation_text = response.text.replace('```', '').replace('#', '')
 
             # Save recommendation
             diet_recommendation = DietRecommendation.objects.create(

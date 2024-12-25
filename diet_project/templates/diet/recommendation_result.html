@@ -1,5 +1,47 @@
 {% extends 'diet/base.html' %}
+<!-- In recommendation_result.html -->
+<div class="recommendation-container">
+    <h2>Your Diet Recommendation</h2>
+    
+    <div class="bmi-info">
+        <h3>Your BMI Information</h3>
+        <p>BMI: {{ bmi|floatformat:1 }}</p>
+        <p>Category: {{ bmi_category }}</p>
+    </div>
 
+    <div class="recommendation-text">
+        <!-- Use pre-wrap to preserve formatting but allow text wrapping -->
+        <pre style="white-space: pre-wrap; font-family: Arial, sans-serif;">{{ recommendation }}</pre>
+    </div>
+</div>
+
+<style>
+    .recommendation-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .bmi-info {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        margin: 20px 0;
+    }
+
+    .recommendation-text {
+        line-height: 1.6;
+        margin-top: 20px;
+    }
+
+    pre {
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        overflow-x: auto;
+    }
+</style>
 {% block content %}
 <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <h1 class="text-3xl font-bold mb-6 text-center text-green-600">Your Personalized Recommendations</h1>
