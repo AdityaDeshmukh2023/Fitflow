@@ -1,11 +1,10 @@
 # diet_recommendation/views.py
 from django.shortcuts import render
 from .forms import DietRecommendationForm
-from google.generativeai import GenerativeModel
+from .models import UserProfile, DietRecommendation  # Add this import
+import google.generativeai as genai
 import os
 from dotenv import load_dotenv
-import google.generativeai as genai
-
 
 load_dotenv()
 
@@ -33,12 +32,10 @@ def diet_recommendation_view(request):
             # Calculate BMI
             bmi, bmi_category = calculate_bmi(float(profile.weight), float(profile.height))
             
-            
-
             # Configure the API key
             genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
-            # Then create the model
+            
+            # Create the model
             model = genai.GenerativeModel("gemini-pro")
 
             prompt = f"""
