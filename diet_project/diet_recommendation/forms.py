@@ -1,3 +1,5 @@
+# delete the language option and just make english.
+
 # diet_recommendation/forms.py
 from django import forms
 from .models import UserProfile
