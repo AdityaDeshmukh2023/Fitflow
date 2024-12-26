@@ -49,7 +49,6 @@ def diet_recommendation_view(request):
             - Dietary Preference: {profile.Food_type}
             - Health Goal: {profile.goal}
             - Medical Conditions: {profile.disease}
-            - Activity Level: {profile.Activity_level}
             - Food Allergies/Restrictions: {profile.allergics}
             - Target Timeline: {profile.Target_timeline}
 

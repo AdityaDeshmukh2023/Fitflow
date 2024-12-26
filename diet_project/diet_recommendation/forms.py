@@ -17,12 +17,7 @@ class DietRecommendationForm(forms.ModelForm):
     ]
     Activity_Level = [('Sedentary', 'Sedentary'), ('moderately active', 'moderately active'), ('active', 'active')]
     Target_timeline = [('1 month', '1 month'), ('3 months', '3 months'), ('6 months', '6 months'), ('1 year', '1 year')]
-    # LANGUAGE_CHOICES = [
-    #     ("English", "English"), ("Hindi", "Hindi"), ("Bengali", "Bengali"),
-    #     ("Punjabi", "Punjabi"), ("Tamil", "Tamil"), ("Telugu", "Telugu"),
-    #     ("Urdu", "Urdu"), ("Spanish", "Spanish"), ("French", "French"),
-    #     ("German", "German")
-    # ]
+    
 
     gender = forms.ChoiceField(choices=GENDER_CHOICES)
     Food_type = forms.ChoiceField(choices=DIET_CHOICES)
