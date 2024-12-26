@@ -162,7 +162,9 @@ def diet_recommendation_view(request):
             # recommendation_text = response.text
 
             response = model.generate_content(prompt)
-            recommendation_text = response.text.replace('```', '').replace('#', '')
+           # In views.py
+            recommendation_text = response.text.replace('*', '').replace('#', '').replace('```', '')
+            
 
             # Save recommendation
             diet_recommendation = DietRecommendation.objects.create(

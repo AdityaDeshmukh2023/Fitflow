@@ -8,13 +8,48 @@
         <p>BMI: {{ bmi|floatformat:1 }}</p>
         <p>Category: {{ bmi_category }}</p>
     </div>
-
+    <div class="recommendation-text prose max-w-none">
+        <pre style="white-space: pre-wrap; 
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                    background: none;
+                    border: none;
+                    padding: 20px;
+                    margin: 0;">{{ recommendation|safe }}</pre>
+    </div>
     <div class="recommendation-text">
         <!-- Use pre-wrap to preserve formatting but allow text wrapping -->
         <pre style="white-space: pre-wrap; font-family: Arial, sans-serif;">{{ recommendation }}</pre>
     </div>
 </div>
-
+<style>
+    .recommendation-text {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .recommendation-text pre {
+        font-size: 16px;
+    }
+    
+    .recommendation-text h2 {
+        font-size: 1.5em;
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+        color: #2d3748;
+    }
+    
+    .recommendation-text ul {
+        margin-left: 20px;
+        margin-bottom: 1em;
+    }
+    
+    .recommendation-text li {
+        margin-bottom: 0.5em;
+    }
+</style>
 <style>
     .recommendation-container {
         max-width: 800px;
@@ -58,7 +93,7 @@
             {{ recommendation|safe|linebreaks|default:"No recommendations available." }}
         </div>
     </div>
-
+    
     <div id="bmiChart" class="w-full h-96 mb-6"></div>
 
     <a href="{% url 'diet_recommendation' %}" class="inline-block bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 transition duration-300">
