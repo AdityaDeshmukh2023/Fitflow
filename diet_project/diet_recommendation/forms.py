@@ -6,21 +6,30 @@ class DietRecommendationForm(forms.ModelForm):
     GENDER_CHOICES = [('Male', 'Male'), ('Female', 'Female')]
     DIET_CHOICES = [('Veg', 'Veg'), ('Non-Veg', 'Non-Veg'), ('Veg & Non-Veg', 'Veg & Non-Veg')]
     GOAL_CHOICES = [
-        ('Gain muscles', 'Gain muscles'),
         ('Lose weight', 'Lose weight'),
-        ('Maintain physique', 'Maintain physique')
+        ('Gain weight', 'Gain weight'),
+        ('Maintain physique', 'Maintain physique'),
+        ('Gain muscles', 'Gain muscles'),
+        ('Endurance Training', 'Endurance Training'),
+        ('Improved Energy Levels', 'Improved Energy Levels'),
+        ('Boost Immunity', 'Boost Immunity'),
+        ('Improve Gut Health', 'Improve Gut Health'),
     ]
-    LANGUAGE_CHOICES = [
-        ("English", "English"), ("Hindi", "Hindi"), ("Bengali", "Bengali"),
-        ("Punjabi", "Punjabi"), ("Tamil", "Tamil"), ("Telugu", "Telugu"),
-        ("Urdu", "Urdu"), ("Spanish", "Spanish"), ("French", "French"),
-        ("German", "German")
-    ]
+    Activity_Level = [('Sedentary', 'Sedentary'), ('moderately active', 'moderately active'), ('active', 'active')]
+    Target_timeline = [('1 month', '1 month'), ('3 months', '3 months'), ('6 months', '6 months'), ('1 year', '1 year')]
+    # LANGUAGE_CHOICES = [
+    #     ("English", "English"), ("Hindi", "Hindi"), ("Bengali", "Bengali"),
+    #     ("Punjabi", "Punjabi"), ("Tamil", "Tamil"), ("Telugu", "Telugu"),
+    #     ("Urdu", "Urdu"), ("Spanish", "Spanish"), ("French", "French"),
+    #     ("German", "German")
+    # ]
 
     gender = forms.ChoiceField(choices=GENDER_CHOICES)
-    veg_or_nonveg = forms.ChoiceField(choices=DIET_CHOICES)
+    Food_type = forms.ChoiceField(choices=DIET_CHOICES)
     goal = forms.ChoiceField(choices=GOAL_CHOICES)
-    language = forms.ChoiceField(choices=LANGUAGE_CHOICES)
+    Activity_level = forms.ChoiceField(choices=Activity_Level)
+    Target_timeline = forms.ChoiceField(choices=Target_timeline)
+    # language = forms.ChoiceField(choices=LANGUAGE_CHOICES)
 
     class Meta:
         model = UserProfile
