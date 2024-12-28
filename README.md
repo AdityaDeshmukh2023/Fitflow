@@ -1,1 +1,1 @@
-Diet recommedation 
+Diet and fitness recommedation 
