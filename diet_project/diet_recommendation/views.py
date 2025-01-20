@@ -4,24 +4,8 @@ from .forms import DietRecommendationForm
 from .models import UserProfile, DietRecommendation  # Add this import
 import google.generativeai as genai
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
 
-def calculate_bmi(weight, height):
-    height_m = height / 100.0
-    bmi = weight / (height_m ** 2)
-    
-    if bmi < 18.5:
-        category = 'Underweight'
-    elif 18.5 <= bmi < 24.9:
-        category = 'Normal weight'
-    elif 25 <= bmi < 29.9:
-        category = 'Overweight'
-    else:
-        category = 'Obesity'
-    
-    return bmi, category
 
 def diet_recommendation_view(request):
     if request.method == 'POST':
@@ -29,8 +13,6 @@ def diet_recommendation_view(request):
         if form.is_valid():
             profile = form.save()
             
-            # Calculate BMI
-            bmi, bmi_category = calculate_bmi(float(profile.weight), float(profile.height))
             
             # Configure the API key
             genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
@@ -167,11 +149,20 @@ def diet_recommendation_view(request):
             
 
             # Save recommendation
+            bmi = profile.weight / (profile.height / 100) ** 2
+            if bmi < 18.5:
+                bmi_category = 'Underweight'
+            elif 18.5 <= bmi < 24.9:
+                bmi_category = 'Normal weight'
+            elif 25 <= bmi < 29.9:
+                bmi_category = 'Overweight'
+            else:
+                bmi_category = 'Obesity'
+
             diet_recommendation = DietRecommendation.objects.create(
                 profile=profile,
                 recommendation_text=recommendation_text,
-                bmi=bmi,
-                bmi_category=bmi_category
+                bmi=bmi
             )
 
             return render(request, 'diet/recommendation_result.html', {
