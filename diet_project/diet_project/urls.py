@@ -4,6 +4,6 @@ from django.urls import path
 from diet_recommendation import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.diet_recommendation_view, name='diet_recommendation'),
+    path("admin/", admin.site.urls),
+    path("", views.diet_recommendation_view, name="diet_recommendation"),
 ]

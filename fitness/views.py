@@ -8,36 +8,40 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def calculate_bmi(weight, height):
     height_m = height / 100.0
-    bmi = weight / (height_m ** 2)
-    
+    bmi = weight / (height_m**2)
+
     if bmi < 18.5:
-        category = 'Underweight'
+        category = "Underweight"
     elif 18.5 <= bmi < 24.9:
-        category = 'Normal weight'
+        category = "Normal weight"
     elif 25 <= bmi < 29.9:
-        category = 'Overweight'
+        category = "Overweight"
     else:
-        category = 'Obesity'
-    
+        category = "Obesity"
+
     return bmi, category
 
+
 def diet_recommendation_view(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = DietRecommendationForm(request.POST)
         if form.is_valid():
             profile = form.save()
-            
+
             # Calculate BMI
-            bmi, bmi_category = calculate_bmi(float(profile.weight), float(profile.height))
-            
+            bmi, bmi_category = calculate_bmi(
+                float(profile.weight), float(profile.height)
+            )
+
             # Configure the API key
             genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-            
+
             # Create the model
             model = genai.GenerativeModel("gemini-pro")
-                                
+
             prompt = f"""
             As an expert fitness trainer, create a comprehensive, personalized fitness plan in valid JSON format following this exact structure:
 
@@ -199,25 +203,30 @@ def diet_recommendation_view(request):
             # recommendation_text = response.text
 
             response = model.generate_content(prompt)
-           # In views.py
-            recommendation_text = response.text.replace('*', '').replace('#', '').replace('```', '')
-            
+            # In views.py
+            recommendation_text = (
+                response.text.replace("*", "").replace("#", "").replace("```", "")
+            )
 
             # Save recommendation
             diet_recommendation = DietRecommendation.objects.create(
                 profile=profile,
                 recommendation_text=recommendation_text,
                 bmi=bmi,
-                bmi_category=bmi_category
+                bmi_category=bmi_category,
             )
 
-            return render(request, 'diet/recommendation_result.html', {
-                'recommendation': recommendation_text,
-                'bmi': bmi,
-                'bmi_category': bmi_category,
-                'profile': profile
-            })
+            return render(
+                request,
+                "diet/recommendation_result.html",
+                {
+                    "recommendation": recommendation_text,
+                    "bmi": bmi,
+                    "bmi_category": bmi_category,
+                    "profile": profile,
+                },
+            )
     else:
         form = DietRecommendationForm()
 
-    return render(request, 'diet/recommendation_form.html', {'form': form})
+    return render(request, "diet/recommendation_form.html", {"form": form})
